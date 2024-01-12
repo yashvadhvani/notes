@@ -3,17 +3,11 @@ import { Prisma, User } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
-export interface ReturnUser {
-  id: number;
-  email: string;
-  name: string;
-}
-
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateUserDto): Promise<ReturnUser> {
+  async create(data: CreateUserDto): Promise<Partial<User>> {
     try {
       const user = await this.prisma.user.create({
         data,
