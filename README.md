@@ -24,25 +24,35 @@ This project is a Notes application built with NestJS, allowing CRUD operations 
 
 ## Setup
 
+
+##
+
 ### Prerequisites
 
-- Node.js installed
-- PostgreSQL 
+## Prerequisites
+
+Before getting started, make sure you have the following installed:
+
+- Node.js installed (v18.18.0 or above)
+- PostgreSQL (v16.1 or above)
 - Clone this repository
 
-### Installation
+### Project Setup
 
 1. **Install dependencies:**
 
    ```bash
    npm install
    ```
+2. **Apply Database Migrations:**
+   ```bash
+   npm run prisma:migrate
+   ```
+3. **Set up environment variables:**
 
-2. **Set up environment variables:**
+   - Copy `.env.sample` to `.env` and fill in the necessary values for your environment.
 
-   - Copy `.env.example` to `.env` and fill in the necessary values for your environment.
-
-3. **Start the application:**
+4. **Start the application:**
 
    ```bash
    npm start
