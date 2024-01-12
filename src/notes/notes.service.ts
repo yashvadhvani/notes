@@ -99,7 +99,7 @@ export class NotesService {
       throw new NotFoundException('Note not found');
     }
 
-    const result: any = await this.prisma.note.update({
+    const result = await this.prisma.note.update({
       where: { id: noteId },
       data: { sharedWith: { connect: userIds.map((id) => ({ id })) } },
       include: {
