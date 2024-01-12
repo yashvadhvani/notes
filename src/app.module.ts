@@ -5,7 +5,6 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import configuration from './config/configuration';
 import { NotesModule } from './notes/notes.module';
 import { PrismaService } from './prisma/prisma.service';
 import { UsersModule } from './users/users.module';
@@ -13,7 +12,7 @@ import { UsersModule } from './users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [configuration],
+      envFilePath: '.env',
     }),
     UsersModule,
     NotesModule,
