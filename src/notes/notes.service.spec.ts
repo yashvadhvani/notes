@@ -1,23 +1,23 @@
 import { NotFoundException } from '@nestjs/common';
+import { JwtModule, JwtService } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Note, User } from '@prisma/client';
 import { AuthService } from '../auth/auth.service';
+import { jwtConstants } from '../constants';
 import { PrismaService } from '../prisma/prisma.service';
+import { UsersModule } from '../users/users.module';
+import { UsersService } from '../users/users.service';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { NotesService } from './notes.service';
-import { JwtModule, JwtService } from '@nestjs/jwt';
-import { ReturnUser, UsersService } from '../users/users.service';
-import { UsersModule } from '../users/users.module';
-import { PassportModule } from '@nestjs/passport';
-import { jwtConstants } from '../constants';
-import { Note } from '@prisma/client';
 
 describe('NotesService', () => {
   let notesService: NotesService;
   let prismaService: PrismaService;
   let authService: AuthService;
-  let mockNewUser: ReturnUser;
-  let mockNewUser2: ReturnUser;
+  let mockNewUser: Partial<User>;
+  let mockNewUser2: Partial<User>;
   let noteResult: Note;
 
   const createNoteDto: CreateNoteDto = {

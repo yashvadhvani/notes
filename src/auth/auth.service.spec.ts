@@ -84,11 +84,9 @@ describe('AuthService', () => {
     });
 
     it('should return null if user is not found', async () => {
-      const user = await authService.validateUser(
-        'nonexistent@example.com',
-        'password',
-      );
-      expect(user).toBeNull();
+      await expect(
+        authService.validateUser('nonexistent@example.com', 'password'),
+      ).rejects.toThrow(UnauthorizedException);
     });
 
     it('should throw UnauthorizedException if password is incorrect', async () => {
