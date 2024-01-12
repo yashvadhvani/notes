@@ -45,6 +45,7 @@ Before getting started, make sure you have the following installed:
    npm install
    ```
 2. **Apply Database Migrations:**
+
    ```bash
    npm run prisma:migrate
    ```
@@ -61,10 +62,14 @@ Before getting started, make sure you have the following installed:
 ## Testing
 
 Run test cases:
+1. **Set up environment variables:**
 
-```bash
-npm test
-```
+   - Copy `.env.sample` to `.env.test` and fill in the necessary values for your environment.
+2. **Run the Test:**
+
+   ```bash
+   npm run test
+   ```
 
 ## API Documentation
 
