@@ -6,7 +6,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
 import { SiginDto } from './dto/signin.dto';
@@ -52,6 +52,7 @@ export class AuthController {
   })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 409, description: 'Conflict - Email already exists' })
+  @Throttle({ default: { limit: 3, ttl: 60 } }) // 3 requests per 60 seconds for registration
   async register(@Body(new ValidationPipe()) user: CreateUserDto) {
     const newUser = await this.authService.register(user);
     return newUser;

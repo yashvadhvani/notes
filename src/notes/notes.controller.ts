@@ -19,7 +19,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { JwtAuthGuard } from '../auth/jwt.auth.guard';
 import { NoteSchema } from '../docs/schemas/notes.schema';
 import { CreateNoteDto } from './dto/create-note.dto';
@@ -41,6 +41,7 @@ export class NotesController {
     description: 'Note created successfully',
     type: NoteSchema,
   })
+  @Throttle({ default: { limit: 5, ttl: 60 } }) //5 requests per 60 seconds
   async create(
     @Body(new ValidationPipe()) createNoteDto: CreateNoteDto,
     @Req() req,
@@ -55,6 +56,7 @@ export class NotesController {
     description: 'Return all notes',
     type: [NoteSchema],
   })
+  @Throttle({ default: { limit: 10, ttl: 60 } }) // 10 requests per 60 seconds
   async findAll(@Req() req) {
     return this.notesService.findAll({
       where: { authorId: +req.user.id },
@@ -72,6 +74,7 @@ export class NotesController {
     status: 404,
     description: 'No notes found matching the search query',
   })
+  @Throttle({ default: { limit: 10, ttl: 60 } }) // 10 requests per 60 seconds
   async search(@Query('query') query: string) {
     if (!query) {
       throw new NotFoundException('Search query parameter is required');
@@ -93,6 +96,7 @@ export class NotesController {
     description: 'Return the note',
     type: NoteSchema,
   })
+  @Throttle({ default: { limit: 10, ttl: 60 } }) // 10 requests per 60 seconds
   async findOne(@Req() req, @Param('id') id: string) {
     return this.notesService.findOne({ id: +id, authorId: +req.user.id });
   }
@@ -105,6 +109,7 @@ export class NotesController {
     description: 'Note updated successfully',
     type: NoteSchema,
   })
+  @Throttle({ default: { limit: 5, ttl: 60 } }) //5 requests per 60 seconds
   async update(
     @Param('id') id: number,
     @Body(new ValidationPipe()) updateNoteDto: UpdateNoteDto,
@@ -115,6 +120,7 @@ export class NotesController {
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a note by ID' })
   @ApiResponse({ status: 200, description: 'Note deleted successfully' })
+  @Throttle({ default: { limit: 3, ttl: 60 } }) // 3 requests per 60 seconds
   async remove(@Req() req, @Param('id') id: string) {
     return this.notesService.delete({ id: +id, authorId: +req.user.id });
   }
